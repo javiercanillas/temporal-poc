@@ -30,22 +30,4 @@ public class SpringConfiguration {
 
         return WorkflowClient.newInstance(service, options);
     }
-
-
-//    @Bean(name = "backgroundExecutor")
-//    public ExecutorService backgroundExecutor() {
-//        return new ThreadPoolExecutor(10, 50, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>(),
-//                new ThreadFactory() {
-//                    final AtomicLong count = new AtomicLong(1L);
-//                    @Override
-//                    public Thread newThread(Runnable r) {
-//                        var thread = Executors.defaultThreadFactory().newThread(r);
-//                        thread.setName(String.format(Locale.ROOT, "consumer-%2d", count.getAndIncrement()));
-//                        thread.setUncaughtExceptionHandler(Thread.getDefaultUncaughtExceptionHandler());
-//                        return thread;
-//                    }
-//                });
-//    }
-
-
 }

@@ -9,6 +9,7 @@ import io.github.javiercanillas.activities.ProductActivityImpl;
 import io.github.javiercanillas.workflows.OrderWorkflowImpl;
 import io.temporal.client.WorkflowClient;
 import io.temporal.worker.WorkerFactory;
+import io.temporal.worker.WorkerOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +23,10 @@ public class WorkerConfiguration {
                                 FraudActivityImpl fraudActivityBean,
                                 PaymentActivityImpl paymentActivityBean,
                                 ProductActivityImpl productActivityBean) {
-        WorkerFactory factory = WorkerFactory.newInstance(workflowClient);
-        var worker = factory.newWorker(taskQueue);
+        var factory = WorkerFactory.newInstance(workflowClient);
+        var options = WorkerOptions.newBuilder()
+                .build();
+        var worker = factory.newWorker(taskQueue, options);
         // This Worker hosts both Workflow and Activity implementations.
         // Workflows are stateful so a type is needed to create instances.
         worker.registerWorkflowImplementationTypes(OrderWorkflowImpl.class);
