@@ -41,6 +41,7 @@
             <groupId>io.temporal</groupId>
             <artifactId>temporal-testing</artifactId>
             <version>${io.temporal.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
