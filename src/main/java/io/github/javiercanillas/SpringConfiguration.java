@@ -22,7 +22,7 @@ public class SpringConfiguration {
     public WorkflowClient workflowClient(@Value("${temporal-server.host}") String host,
                                          @Value("${temporal-server.port}") String port) {
         var wsso = WorkflowServiceStubsOptions.newBuilder()
-                .setTarget("localhost:7233")
+                .setTarget(String.join(":", host, port))
                 .build();
         WorkflowServiceStubs service = WorkflowServiceStubs.newInstance(wsso);
         WorkflowClientOptions options = WorkflowClientOptions.newBuilder()
