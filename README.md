@@ -3,7 +3,7 @@ Temporal.IO Proof of concept
 
 ## Requirements
 To run this POC you will need:
-* Temporal.io installed and running (https://github.com/temporalio/temporal)
+* Temporal.io installed and running (https://github.com/temporalio/temporal) ([docker-compose option](https://github.com/temporalio/docker-compose))
 * Maven
 * Java 1.8 or later
 
