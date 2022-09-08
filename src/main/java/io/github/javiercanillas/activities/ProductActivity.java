@@ -8,4 +8,6 @@ public interface ProductActivity {
 
     @ActivityMethod
     String deliver(String orderId);
+
+    void recall(String nsu);
 }

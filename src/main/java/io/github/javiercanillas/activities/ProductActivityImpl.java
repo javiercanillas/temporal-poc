@@ -28,4 +28,16 @@ public class ProductActivityImpl implements ProductActivity {
             throw new ActivityException("0001", "This product cannot be delivered");
         }
     }
+
+    @Override
+    public void recall(String nsu) {
+        log.trace("Running product order recall for {}", nsu);
+        Utils.sleepSilently(100L + rnd.nextInt(2000));
+        if (rnd.nextBoolean()) {
+            log.trace("Successful product recall for {}", nsu);
+        } else {
+            log.trace("Ups! Product recall failure for {}", nsu);
+            throw new ActivityException("0002", "This product doesn't support recall");
+        }
+    }
 }
