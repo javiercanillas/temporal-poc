@@ -4,6 +4,8 @@ Temporal.IO Proof of concept
 ## Requirements
 To run this POC you will need:
 * Temporal.io installed and running (https://github.com/temporalio/temporal)
+* Maven
+* Java 1.8 or later
 
 Example workflow and activities will register when the application starts, no need to manual register anything.
 
