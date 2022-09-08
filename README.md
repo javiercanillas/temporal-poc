@@ -1,16 +1,48 @@
 # temporal-poc
 Temporal.IO Proof of concept
 
+## Requirements
 To run this POC you will need:
 * Temporal.io installed and running (https://github.com/temporalio/temporal)
 
 Example workflow and activities will register when the application starts, no need to manual register anything.
 
+## Workflow flow chart:
+```mermaid
+graph LR
+    A{{Fraud check}} -->B{score?}
+    B -->|> 70|C
+    B -->|> 30|D
+    B -->|> 30|Z
+    C{{authorise payment}} --> F
+    D>require KYC] --> E
+    E{KYC fulfilled?} -->|timeout| Z
+    E -->|no|Z
+    E -->|yes|C
+    F{payment authorised?} -->|yes| I
+    F -->|no| G
+    G>Require new payment method] --> H
+    H{new payment submitted?} -->|timeout| Z
+    H -->|no| Z 
+    H -->|yes| C 
+    I[add payment compensation] -->J 
+    J{{delivery product}} --> K
+    K{product delivered?} -->|yes| L
+    K -->|no| Y
+    L[add product compensation] -->M
+    M[capture payment with authorization] --> X
+    Y{{compensate}}-->Z
+    X{{Approve order}}
+    Z{{Decline order}}
+```
+
+## Starting poc
 After that, you can start the spring-boot application by typing on command line:
 ```bash
 mvn spring-boot:run
 ```
 
+## Firing orders
 On another terminal, submit an order to be processed:
 ```bash
 curl -H 'Content-Type:application/json' -H 'Accept:application/json' -X POST http://localhost:8081/order -d '{ "orderId": "1" }'
