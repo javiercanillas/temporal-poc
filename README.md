@@ -15,7 +15,7 @@ graph LR
     A{{Fraud check}} -->B{score?}
     B -->|> 70|C
     B -->|> 30|D
-    B -->|> 30|Z
+    B -->|< 30|Z
     C{{authorise payment}} --> F
     D>require KYC] --> E
     E{KYC fulfilled?} -->|timeout| Z
