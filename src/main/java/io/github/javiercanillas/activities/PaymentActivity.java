@@ -16,10 +16,10 @@ public interface PaymentActivity {
     AuthorisationResult authorize(String orderId);
 
     @ActivityMethod
-    boolean cancelAuthorization(String authorizationId);
+    boolean cancelAuthorisation(String authorisationId);
 
     @ActivityMethod
-    void captureAuthorization(String authorizationId);
+    void captureAuthorisation(String authorisationId);
 
     @Getter
     @Setter
@@ -28,7 +28,7 @@ public interface PaymentActivity {
     @ToString
     @Builder(setterPrefix = "with")
     class AuthorisationResult {
-        private String authorizationId;
+        private String authorisationId;
         private Status status;
     }
 

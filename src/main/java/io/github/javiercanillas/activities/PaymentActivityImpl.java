@@ -18,14 +18,14 @@ public class PaymentActivityImpl implements PaymentActivity {
 
     @Override
     public AuthorisationResult authorize(String orderId) {
-        log.trace("Running payment order authorization for {}", orderId);
+        log.trace("Running payment order authorisation for {}", orderId);
         Utils.sleepSilently(100L + rnd.nextInt(2000));
 
         if (rnd.nextBoolean()) {
             if (rnd.nextBoolean()) {
                 log.trace("All payment intents for {} are authorized", orderId);
                 return AuthorisationResult.builder()
-                        .withAuthorizationId(UUID.randomUUID().toString())
+                        .withAuthorisationId(UUID.randomUUID().toString())
                         .withStatus(Status.AUTHORISED)
                         .build();
             } else {
@@ -41,28 +41,28 @@ public class PaymentActivityImpl implements PaymentActivity {
     }
 
     @Override
-    public boolean cancelAuthorization(String authorizationId) {
-        log.trace("Running payment order cancellation for {}", authorizationId);
+    public boolean cancelAuthorisation(String authorisationId) {
+        log.trace("Running payment order cancellation for {}", authorisationId);
         Utils.sleepSilently(100L + rnd.nextInt(2000));
 
         if (rnd.nextBoolean()) {
-            log.trace("All payment intents for {} are cancelled", authorizationId);
+            log.trace("All payment intents for {} are cancelled", authorisationId);
             return true;
         } else {
-            log.trace("Ups! Payment cancellation error for {}", authorizationId);
+            log.trace("Ups! Payment cancellation error for {}", authorisationId);
             throw new ActivityException("0001", "Payment cancellation error!");
         }
     }
 
     @Override
-    public void captureAuthorization(String authorizationId) {
-        log.trace("Running payment order capture for {}", authorizationId);
+    public void captureAuthorisation(String authorisationId) {
+        log.trace("Running payment order capture for {}", authorisationId);
         Utils.sleepSilently(100L + rnd.nextInt(2000));
 
         if (rnd.nextBoolean()) {
-            log.trace("All payment intents for {} are captured", authorizationId);
+            log.trace("All payment intents for {} are captured", authorisationId);
         } else {
-            log.trace("Ups! Payment capture error for {}", authorizationId);
+            log.trace("Ups! Payment capture error for {}", authorisationId);
             throw new ActivityException("0001", "Payment capture error!");
         }
     }

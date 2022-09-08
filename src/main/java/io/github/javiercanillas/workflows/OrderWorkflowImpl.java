@@ -93,12 +93,12 @@ public class OrderWorkflowImpl implements OrderWorkflow {
     }
 
     private void collectAndDeliver(String orderId, Saga saga) {
-        PaymentActivity.AuthorisationResult authorizationResult = null;
+        PaymentActivity.AuthorisationResult authorisationResult = null;
         try {
-            authorizationResult = authorizePayment(orderId, saga);
-            log.info("authorizationResult: {}, for orderId {}", authorizationResult, orderId);
+            authorisationResult = authorizePayment(orderId, saga);
+            log.info("authorisationResult: {}, for orderId {}", authorisationResult, orderId);
 
-            if (PaymentActivity.Status.AUTHORISED.equals(authorizationResult.getStatus())) {
+            if (PaymentActivity.Status.AUTHORISED.equals(authorisationResult.getStatus())) {
                 var nsu = deliverProduct(orderId, saga);
                 log.info("nsu: {}, for orderId {}", nsu, orderId);
                 this.orderInformation.setStatus(Status.APPROVED);
@@ -112,15 +112,15 @@ public class OrderWorkflowImpl implements OrderWorkflow {
             this.orderInformation.setStatus(Status.DECLINED);
         }
 
-        if (Status.APPROVED.equals(this.orderInformation.getStatus()) && (authorizationResult != null)) {
-            captureAuthorization(authorizationResult.getAuthorizationId());
-            log.info("Captured authorizationResult {}, for orderId {}", authorizationResult, orderId);
+        if (Status.APPROVED.equals(this.orderInformation.getStatus()) && (authorisationResult != null)) {
+            captureAuthorisation(authorisationResult.getAuthorisationId());
+            log.info("Captured authorisationResult {}, for orderId {}", authorisationResult, orderId);
         }
 
     }
 
-    private void captureAuthorization(String authorizationId) {
-        this.paymentActivity.captureAuthorization(authorizationId);
+    private void captureAuthorisation(String authorisationId) {
+        this.paymentActivity.captureAuthorisation(authorisationId);
     }
 
     private String deliverProduct(String orderId, Saga saga) {
@@ -139,7 +139,7 @@ public class OrderWorkflowImpl implements OrderWorkflow {
                 this.orderInformation.setStatus(Status.IN_PROGRESS);
                 authorisationResult = this.paymentActivity.authorize(orderId);
                 if (PaymentActivity.Status.AUTHORISED.equals(authorisationResult.getStatus())) {
-                    saga.addCompensation(this.paymentActivity::cancelAuthorization, authorisationResult.getAuthorizationId());
+                    saga.addCompensation(this.paymentActivity::cancelAuthorisation, authorisationResult.getAuthorisationId());
                 } else {
                     log.info("CC error! Requiring new payment method to approve orderId: {}", orderId);
                     this.orderInformation.setStatus(Status.AWAITING_SIGNAL);
