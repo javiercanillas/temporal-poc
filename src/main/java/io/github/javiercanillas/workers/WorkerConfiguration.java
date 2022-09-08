@@ -1,12 +1,9 @@
 package io.github.javiercanillas.workers;
 
-import io.github.javiercanillas.activities.FraudActivity;
-import io.github.javiercanillas.activities.FraudActivityImpl;
-import io.github.javiercanillas.activities.PaymentActivity;
+import io.github.javiercanillas.activities.RiskActivityImpl;
 import io.github.javiercanillas.activities.PaymentActivityImpl;
-import io.github.javiercanillas.activities.ProductActivity;
 import io.github.javiercanillas.activities.ProductActivityImpl;
-import io.github.javiercanillas.workflows.OrderWorkflowImpl;
+import io.github.javiercanillas.workflows.TransactionWorkflowImpl;
 import io.temporal.client.WorkflowClient;
 import io.temporal.worker.WorkerFactory;
 import io.temporal.worker.WorkerOptions;
@@ -19,8 +16,8 @@ public class WorkerConfiguration {
     @Autowired
     @Bean(initMethod = "start", destroyMethod = "shutdown")
     WorkerFactory workerFactory(WorkflowClient workflowClient,
-                                @Value("order-workflow-task-queue") String taskQueue,
-                                FraudActivityImpl fraudActivityBean,
+                                @Value("transaction-workflow-task-queue") String taskQueue,
+                                RiskActivityImpl riskActivityBean,
                                 PaymentActivityImpl paymentActivityBean,
                                 ProductActivityImpl productActivityBean) {
         var factory = WorkerFactory.newInstance(workflowClient);
@@ -29,9 +26,9 @@ public class WorkerConfiguration {
         var worker = factory.newWorker(taskQueue, options);
         // This Worker hosts both Workflow and Activity implementations.
         // Workflows are stateful so a type is needed to create instances.
-        worker.registerWorkflowImplementationTypes(OrderWorkflowImpl.class);
+        worker.registerWorkflowImplementationTypes(TransactionWorkflowImpl.class);
         // Activities are stateless and thread safe so a shared instance is used.
-        worker.registerActivitiesImplementations(fraudActivityBean,
+        worker.registerActivitiesImplementations(riskActivityBean,
                 paymentActivityBean,
                 productActivityBean);
         // Start listening to the Task Queue.

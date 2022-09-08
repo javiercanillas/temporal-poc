@@ -4,8 +4,8 @@ import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 
 @ActivityInterface
-public interface FraudActivity {
+public interface RiskActivity {
 
     @ActivityMethod
-    int checkOrderForFraud(String orderId);
+    int scoreTransactionRisk(String transactionId);
 }

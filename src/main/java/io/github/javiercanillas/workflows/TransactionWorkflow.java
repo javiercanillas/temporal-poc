@@ -7,16 +7,16 @@ import io.temporal.workflow.WorkflowMethod;
 import lombok.Getter;
 
 @WorkflowInterface
-public interface OrderWorkflow {
+public interface TransactionWorkflow {
 
     @WorkflowMethod
-    Status approve(String orderId);
+    Status approve(String transactionId);
 
     @SignalMethod
     void notifyFulfilledSignal(Signal signal);
 
     @QueryMethod
-    OrderInformation getOrderInformation();
+    TransactionInformation getTransactionInformation();
 
     @Getter
     enum Status {
@@ -36,7 +36,7 @@ public interface OrderWorkflow {
 
     enum Signal {
         NONE,
-        PENDING_KYC,
+        PENDING_RISK_VALIDATION,
         NEW_PAYMEMT_METHOD
     }
 }

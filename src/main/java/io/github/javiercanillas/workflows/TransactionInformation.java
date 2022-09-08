@@ -2,7 +2,6 @@ package io.github.javiercanillas.workflows;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,9 +12,9 @@ import java.util.Set;
 @Setter
 @ToString
 @Builder(setterPrefix = "with")
-public final class OrderInformation {
+public final class TransactionInformation {
     @Builder.Default
-    private OrderWorkflow.Status status = OrderWorkflow.Status.UNKNOWN;
+    private TransactionWorkflow.Status status = TransactionWorkflow.Status.UNKNOWN;
     @Builder.Default
-    private Set<OrderWorkflow.Signal> awaitingSignals = new HashSet<>();
+    private Set<TransactionWorkflow.Signal> awaitingSignals = new HashSet<>();
 }

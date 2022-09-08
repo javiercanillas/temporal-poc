@@ -7,7 +7,7 @@ import io.temporal.activity.ActivityMethod;
 public interface ProductActivity {
 
     @ActivityMethod
-    String deliver(String orderId);
+    String deliver(String transactionId);
 
     void recall(String nsu);
 }

@@ -13,7 +13,7 @@ import lombok.ToString;
 public interface PaymentActivity {
 
     @ActivityMethod
-    AuthorisationResult authorize(String orderId);
+    AuthorisationResult authorize(String transactionId);
 
     @ActivityMethod
     boolean cancelAuthorisation(String authorisationId);
